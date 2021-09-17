@@ -17,7 +17,7 @@ jobs:
               run: make test
 
             - name: Authenticate with Docker Hub
-              run: echo $(DOCKER_HUB_CREDENTIALS) | docker login -u $(DOCKER_HUB_USERNAME) --password-stdin
+              run: echo ${{ secrets.DOCKER_HUB_CREDENTIALS }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
             - name: Publish the docker image
               run: make publish
