@@ -1,0 +1,25 @@
+name: Build and push the container
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-and-push:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Build the docker image
+              run: make build
+
+            - name: Test the docker image
+              run: make test
+
+            - name: Authenticate with Docker Hub
+              run: echo $(DOCKER_HUB_CREDENTIALS) | docker login -u $(DOCKER_HUB_USERNAME) --password-stdin
+
+            - name: Publish the docker image
+              run: make publish
+              env:
+                  UPDATE_LATEST_TAG: 1
